@@ -1,14 +1,16 @@
 {
   "name": "@plasmohq/parcel-transformer-svelte3",
+  "type": "module",
   "version": "0.3.2",
   "description": "Plasmo Parcel Transformer for Svelte3",
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "scripts": {
     "prepublishOnly": "pnpm build",
-    "build": "tsup src/index.ts --minify --clean",
+    "build": "tsup src/index.ts --format esm,cjs --minify --clean",
     "dev": "tsup src/index.ts --sourcemap --watch"
   },
   "author": "Plasmo Corp. <foss@plasmo.com>",
@@ -31,6 +33,9 @@
     "@parcel/diagnostic": "2.8.2",
     "@parcel/plugin": "2.8.2",
     "@parcel/source-map": "2.1.1",
-    "@parcel/utils": "2.8.2"
+    "@parcel/utils": "2.8.2",
+    "@plasmo/utils": "workspace:*",
+    "bundle-require": "3.1.2",
+    "esbuild": "0.16.12"
   }
 }

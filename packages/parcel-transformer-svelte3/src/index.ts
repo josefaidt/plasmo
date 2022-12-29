@@ -6,18 +6,29 @@
  * Copyright (c) 2022 Christoph Hommelsheim
  * MIT License
  */
+
 import ThrowableDiagnostic from "@parcel/diagnostic"
 import { Transformer } from "@parcel/plugin"
 import { relativeUrl } from "@parcel/utils"
+import { bundleRequire } from "bundle-require"
 import { compile, preprocess } from "svelte/compiler"
+
+import { fileExists } from "@plasmo/utils"
 
 import { convertError } from "./convert-error"
 import { extendSourceMap } from "./source-map"
 
 export default new Transformer({
   async loadConfig({ config, options }) {
-    const conf = await config.getConfig([".svelterc", "svelte.config.js"], {
-      packageKey: "svelte"
+    const svelteConfigFiles = [
+      ".svelterc",
+      "svelte.config.js",
+      "svelte.config.cjs",
+      "svelte.config.mjs"
+    ]
+    const svelteConfigFile = svelteConfigFiles.find(fileExists)
+    const { mod: conf } = await bundleRequire({
+      filepath: svelteConfigFile
     })
 
     let contents = {} as any
